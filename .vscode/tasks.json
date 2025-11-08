@@ -6,11 +6,11 @@
         {
             "label": "Compile Plugin",
             "type": "process",
-            "command": "${workspaceRoot}\\amxxpc.exe",
+            "command": "${workspaceRoot}/amxxpc",
             "args": [
                 "${file}",
-                "-i${workspaceRoot}\\include",
-                "-o${workspaceRoot}\\compiled\\${fileBasenameNoExtension}.amxx"
+                "-i${workspaceRoot}/include",
+                "-o${workspaceRoot}/compiled/${fileBasenameNoExtension}.amxx"
             ],
             "group": {
                 "kind": "build",

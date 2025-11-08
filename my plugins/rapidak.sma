@@ -26,7 +26,7 @@ public plugin_init()
     RegisterHam(Ham_Item_Deploy, "weapon_ak47", "WeaponDeploy", 1)
     RegisterHam(Ham_TraceAttack, "player", "fw_TraceAttack")
     register_concmd("amx_give_rapidak", "cmd_give_rapidak", ADMIN_RCON, "amx_give_rapidak <target>")
-    register_event("HLTV", "Event_HLTV_New_Round_phase", "a", "1=0", "2=0")
+    register_event("HLTV", "Event_HLTV_New_Round", "a", "1=0", "2=0")
     register_forward(FM_ChangeLevel, "Level_end", 1)
     g_iWeaponIds = ArrayCreate(1)
 }
@@ -117,11 +117,6 @@ public Level_end()
     ArrayDestroy(g_iWeaponIds)
 }
 
-public Event_HLTV_New_Round_phase()
-{
-    set_task(0.1, "Event_HLTV_New_Round")
-}
-
 public Event_HLTV_New_Round()
 {
     clean_ak47_ids()
@@ -140,7 +135,9 @@ public clean_ak47_ids()
         new ent = ArrayGetCell(g_iWeaponIds, i)
 
         if (is_valid_ent(ent))
+        {
             ArrayPushCell(newWeaponIds, ent)
+        }
     }
 
     ArrayDestroy(g_iWeaponIds)
@@ -215,7 +212,7 @@ public PrimaryAttackPost(weaponid)
     //punchangle
     new Float:zero[3] = {0.0, 0.0, 0.0}
 
-    //set_pev(id, pev_punchangle, zero)
+    set_pev(id, pev_punchangle, zero)
 
     return HAM_IGNORED
 }

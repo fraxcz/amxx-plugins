@@ -430,4 +430,5 @@ include/
 testsuite/
 *.exe
 *.sh
+*.so
 *.dll
