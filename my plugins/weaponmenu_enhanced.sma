@@ -45,7 +45,7 @@ public plugin_init()
     //config path
     get_configsdir(g_filepath, charsmax(g_filepath))
     formatex(g_filepath, charsmax(g_filepath),"%s/weaponmenu.json", g_filepath)
-    readJSON()
+    readJSON(0)
 
 }
 
