@@ -32,10 +32,11 @@ public plugin_init()
 {
     register_plugin(PLUGIN, VERSION, AUTHOR)
     register_clcmd("amx_show_loadout", "primaryMenu")
+    register_concmd("amx_weaponmenu_reload", "readJSON", ADMIN_RCON)
     RegisterHam(Ham_Spawn, "player", "fw_playerSpawn", 1)
     register_forward(FM_ChangeLevel, "level_end", 1)
 
-    //Dynamic array init
+    //Creating a dummy for getting a sizeof
     new dummy[e_Weapons] 
 
     g_primaryWeapons = ArrayCreate(sizeof(dummy))
@@ -44,7 +45,6 @@ public plugin_init()
     //config path
     get_configsdir(g_filepath, charsmax(g_filepath))
     formatex(g_filepath, charsmax(g_filepath),"%s/weaponmenu.json", g_filepath)
-
     readJSON()
 
 }
@@ -53,22 +53,28 @@ public fw_playerSpawn(id)
 {
     g_players[id] = 0
 
-    if(get_user_team(id) == 1 || !is_user_alive(id))
+    if(!is_user_alive(id))
+        return PLUGIN_HANDLED
+
+    strip_user_weapons(id) 
+    give_item(id, "weapon_knife")
+    if(get_user_team(id) == 1)
         return HAM_IGNORED
 
     g_players[id] = 1
-    strip_user_weapons(id)
-    give_item(id, "weapon_knife")
 
     primaryMenu(id)
     
     return HAM_IGNORED
 }
 
-public readJSON()
+public readJSON(id)
 {
     readConfig(Primary)
     readConfig(Secondary)
+
+    if(id)
+        console_print(id, "[%s] Reload complete. Check server console if some weapons didn't load", PLUGIN)
 }
 
 public readConfig(e_WeapSlots:slot)
